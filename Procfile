@@ -1,1 +1,0 @@
-web: gunicorn circulating_supply_api:app
