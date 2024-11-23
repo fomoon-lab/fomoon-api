@@ -11,15 +11,18 @@
             font-family: 'Roboto', sans-serif;
             color: #4a4a4a;
         }
-        #resultOutput {
-            font-family: 'Courier New', monospace;
-            font-size: 1.1rem;
-            background-color: #f8f9fa;
-            color: #212529;
-            border: 1px solid #dee2e6;
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
+        #resultOutput table {
+            width: 100%;
+            margin-top: 15px;
+            border-collapse: collapse;
+        }
+        #resultOutput td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        #resultOutput td:first-child {
+            font-weight: bold;
+            background-color: #f9f9f9;
         }
     </style>
 </head>
@@ -43,23 +46,50 @@
         <!-- Results -->
         <div id="results" class="mt-5">
             <h4>Results:</h4>
-            <pre id="resultOutput">Click a button to see the results here.</pre>
+            <div id="resultOutput"></div> <!-- Dynamic content will be inserted here -->
         </div>
     </div>
 
     <script>
+        function displayResults(data) {
+            const resultContainer = document.getElementById("resultOutput");
+            resultContainer.innerHTML = ""; // Clear previous results
+
+            // Create a table
+            const table = document.createElement("table");
+            table.className = "table table-striped";
+
+            // Add rows for each key-value pair
+            for (const [key, value] of Object.entries(data)) {
+                const row = document.createElement("tr");
+
+                const keyCell = document.createElement("td");
+                keyCell.textContent = key;
+                keyCell.style.fontWeight = "bold";
+
+                const valueCell = document.createElement("td");
+                valueCell.textContent = value;
+
+                row.appendChild(keyCell);
+                row.appendChild(valueCell);
+                table.appendChild(row);
+            }
+
+            resultContainer.appendChild(table);
+        }
+
         // Handle Circulating Supply Button Click
         document.getElementById("circulatingSupplyBtn").addEventListener("click", async () => {
             const response = await fetch('/circulating_supply');
             const data = await response.json();
-            document.getElementById("resultOutput").textContent = JSON.stringify(data, null, 2);
+            displayResults(data);
         });
 
         // Handle Total Supply Button Click
         document.getElementById("totalSupplyBtn").addEventListener("click", async () => {
             const response = await fetch('/total_supply');
             const data = await response.json();
-            document.getElementById("resultOutput").textContent = JSON.stringify(data, null, 2);
+            displayResults(data);
         });
     </script>
 </body>
