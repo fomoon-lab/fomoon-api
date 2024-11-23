@@ -15,11 +15,8 @@ from config import (
 app = Flask(__name__)
 
 # Rate Limiting
-limiter = Limiter(
-    get_remote_address,
-    app=app,
-    default_limits=["100 per minute"]
-)
+limiter = Limiter(key_func=get_remote_address)
+limiter.init_app(app)
 
 # Logging Setup
 logging.basicConfig(
