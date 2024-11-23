@@ -12,6 +12,10 @@ from config import (
     TOKEN_TICKER
 )
 
+# Suppress warnings
+import warnings
+warnings.filterwarnings("ignore")
+
 app = Flask(__name__)
 
 # Rate Limiting
