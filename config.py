@@ -1,3 +1,5 @@
+# Configuration file for FOMOON API
+
 # config.py
 TOTAL_SUPPLY = 1_000_000_000
 TOKENS_PER_MINT = 2_000
