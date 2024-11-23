@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 import logging
@@ -34,13 +34,10 @@ logging.basicConfig(
 @app.route('/')
 def home():
     """
-    Root route to provide basic information.
+    Root route to render the UI.
     """
     logging.info("Home endpoint accessed")
-    return (
-        "Welcome to the FOMOON API! Available endpoints: "
-        "/circulating_supply, /total_supply"
-    )
+    return render_template("index.html")
 
 @app.route('/circulating_supply', methods=['GET'])
 @limiter.limit("10 per minute")
